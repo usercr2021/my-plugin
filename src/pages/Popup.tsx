@@ -2,17 +2,9 @@ import { useEffect, useState } from 'react';
 import "./Popup.css";
 import { getDuckDB } from '../db';
 import * as arrow from 'apache-arrow';
+import DuckDBComponent from "../components/DuckDB";
 
 
-interface Request {
-  id: arrow.Uint8
-  req_id: string
-  path: arrow.Utf8
-  log_id: arrow.Utf8
-  req: arrow.Utf8
-  resp: arrow.Utf8
-  start_time: arrow.TimeMillisecond
-}
 
 export default function () {
   // const [ready, setReady] = useState(false);
@@ -48,9 +40,9 @@ export default function () {
         `);
 
         const table = await conn?.query(` 
-          SELECT * FROM requests where sqlMap
+          SELECT * FROM requests 
           `);
-
+        await conn?.close();
         const rowCount = table?.numRows ?? 0;
         const row: Record<string, any> = {};
         for (let i = 0; i < rowCount; i++) {

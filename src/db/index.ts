@@ -10,7 +10,8 @@ let dbInstance: duckdb.AsyncDuckDB | null = null;
 
 export async function getDuckDB() {
     if (dbInstance) return dbInstance;
-
+    
+    const path = 'opfs://mydb.duckdb';
     const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
         mvp: {
             mainModule: duckdb_wasm,
@@ -29,9 +30,13 @@ export async function getDuckDB() {
         const worker = new Worker(bundle.mainWorker!);
         const logger = new duckdb.ConsoleLogger();
         const db = new duckdb.AsyncDuckDB(logger, worker);
-        await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+        await db.instantiate(
+            bundle.mainModule, bundle.pthreadWorker
+        );
+        
+        await db.registerOPFSFileName(path);
         dbInstance = db;
-
+        // await db.registerOPFSFileName(path);
         // Create a new connection
         //   const conn = await db.connect();
         //   // Either materialize the query result
@@ -54,3 +59,20 @@ export async function getDuckDB() {
 
     return dbInstance;
 }
+
+
+
+/**
+ * 导出数据库文件（下载 .duckdb 文件）
+ */
+// export async function exportDuckDB(db: duckdb.AsyncDuckDB, filename = 'mydb.duckdb') {
+//     const buffer = db.copyFileToBuffer(filename);
+//     const blob = new Blob([buffer], { type: 'application/octet-stream' });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement('a');
+//     a.href = url;
+//     a.download = filename;
+//     a.click();
+//     URL.revokeObjectURL(url);
+//     console.log(`✅ 导出成功: ${filename}`);
+// }

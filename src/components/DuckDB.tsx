@@ -13,7 +13,7 @@ const DuckDBComponent: React.FC = () => {
     const [query, setQuery] = useState<string>(''); // 用于存储输入的查询
     const [result, setResult] = useState<string>(''); // 用于显示查询结果
     const [loading, setLoading] = useState<boolean>(false); // 加载状态
-
+    const path = 'opfs://mydb.duckdb';
     const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
         mvp: {
             mainModule: duckdb_wasm,
@@ -36,7 +36,7 @@ const DuckDBComponent: React.FC = () => {
             const logger = new duckdb.ConsoleLogger();
             const db = new duckdb.AsyncDuckDB(logger, worker);
             await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
-
+            await db.registerOPFSFileName(path);
             // Create a new connection
             const conn = await db.connect();
 
