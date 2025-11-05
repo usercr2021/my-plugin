@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "req_id": "123.32",
+    "path": "/interface/99",
+    "log_id": "123341231dsdqwqw",
+    "req": "{\"xx\":\"hhax\"}",
+    "resp": "{\"name\":\"hhax\",\"data\":\"123\"}",
+    "start_time": 716988600123.456,
+    "end_time": 716988600123.456,
+    "type": "sql",
+    "code_list": [
+        "gmv_1d",
+        "cnt_1d"
+    ],
+    "extra": "{\"xx\":\"hhax\"}",
+    "sqlMap": "{\"name\":\"hhax\",\"data\":\"123\"}"
+}
