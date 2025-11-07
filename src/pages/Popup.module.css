@@ -1,4 +1,4 @@
-div {
+/* div {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -30,4 +30,18 @@ code {
     padding: 2px 4px;
     background-color: #ffffff24;
     border-radius: 2px;
+} */
+
+.Popup {
+    /* 四个方向都有 16px 外边距 */
+    /* margin: 16px; */
+    /* 内容与边框之间的距离 */
+    padding: 10px 20px;
 }
+
+.Err {
+    font-size: 12px;
+    padding: 2px 4px;
+    background-color: #45434324;
+    border-radius: 2px;
+} 

@@ -20,5 +20,5 @@ export default defineConfig({
     webExtension({
       manifest: generateManifest,
     }),
-  ],
+  ]
 });

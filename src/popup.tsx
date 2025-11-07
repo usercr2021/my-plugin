@@ -1,8 +1,8 @@
 // popup/App.tsx
-import browser from 'webextension-polyfill';
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Popup from "./pages/Popup";
+import './userWorker';
 
 ReactDOM.createRoot(document.body).render(
   <React.StrictMode>
