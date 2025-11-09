@@ -20,5 +20,20 @@
       "src/background.ts",
       "src/pages/Popup.tsx"
     ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "duckdb.wasm",
+        "duckdb-eh.wasm",
+        "duckdb-browser-*.wasm"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   }
 }

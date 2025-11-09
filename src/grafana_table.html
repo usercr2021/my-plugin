@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grafana 风格表格</title>
+<style>
+  body {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 30px;
+  }
+  h2 {
+    text-align: center;
+    color: #f8fafc;
+  }
+  .table-container {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    width: 90%;
+    margin: 20px auto;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+  }
+  thead {
+    background: #111827;
+  }
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    color: #93c5fd;
+    cursor: pointer;
+    border-bottom: 1px solid #334155;
+  }
+  th:hover {
+    color: #bfdbfe;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #334155;
+  }
+  tr:hover td {
+    background: #273449;
+  }
+  .asc::after { content: " ▲"; color: #60a5fa; }
+  .desc::after { content: " ▼"; color: #60a5fa; }
+</style>
+</head>
+<body>
+<h2>Grafana 风格表格 Demo</h2>
+
+<div class="table-container">
+  <table id="grafanaTable">
+    <thead>
+      <tr>
+        <th data-key="name">接口名称</th>
+        <th data-key="method">方法</th>
+        <th data-key="status">状态码</th>
+        <th data-key="duration">耗时 (ms)</th>
+        <th data-key="size">响应大小 (KB)</th>
+        <th data-key="time">时间戳</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+const data = [
+  { name: "/api/user", method: "GET", status: 200, duration: 83, size: 12.3, time: "10:01:05" },
+  { name: "/api/order", method: "POST", status: 201, duration: 112, size: 15.1, time: "10:01:07" },
+  { name: "/api/cart", method: "GET", status: 200, duration: 67, size: 9.8, time: "10:01:08" },
+  { name: "/api/login", method: "POST", status: 401, duration: 95, size: 7.4, time: "10:01:10" },
+  { name: "/api/products", method: "GET", status: 200, duration: 145, size: 18.2, time: "10:01:13" },
+  { name: "/api/report", method: "GET", status: 500, duration: 210, size: 2.1, time: "10:01:17" },
+];
+
+// ===== 渲染表格 =====
+const tableBody = document.querySelector("#grafanaTable tbody");
+function renderTable(rows) {
+  tableBody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td>${r.method}</td>
+      <td style="color:${r.status >= 400 ? '#f87171' : '#34d399'}">${r.status}</td>
+      <td>${r.duration}</td>
+      <td>${r.size.toFixed(1)}</td>
+      <td>${r.time}</td>
+    </tr>
+  `).join("");
+}
+renderTable(data);
+
+// ===== 排序功能 =====
+let sortKey = null;
+let sortOrder = "asc";
+const headers = document.querySelectorAll("th");
+headers.forEach(th => {
+  th.addEventListener("click", () => {
+    const key = th.dataset.key;
+    if (sortKey === key) {
+      sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    } else {
+      sortKey = key;
+      sortOrder = "asc";
+    }
+
+    headers.forEach(h => h.classList.remove("asc", "desc"));
+    th.classList.add(sortOrder);
+
+    const sorted = [...data].sort((a, b) => {
+      const valA = a[key];
+      const valB = b[key];
+      if (typeof valA === "number" && typeof valB === "number")
+        return sortOrder === "asc" ? valA - valB : valB - valA;
+      return sortOrder === "asc"
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
+    renderTable(sorted);
+  });
+});
+</script>
+</body>
+</html>
