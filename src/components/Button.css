@@ -1,0 +1,123 @@
+/* 基础样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* 图标与文本间距 */
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* 尺寸 */
+.btn.small {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.btn.medium {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.btn.large {
+  height: 48px;
+  padding: 0 20px;
+  font-size: 18px;
+}
+
+/* 变体（样式类型） */
+/* 主要按钮 */
+.btn.primary {
+  background-color: #165DFF;
+  color: white;
+}
+.btn.primary:hover:not(.disabled):not(.loading) {
+  background-color: #0E42D2;
+  box-shadow: 0 2px 8px rgba(22, 93, 255, 0.3);
+}
+
+/* 次要按钮 */
+.btn.secondary {
+  background-color: #F5F7FA;
+  color: #4E5969;
+}
+.btn.secondary:hover:not(.disabled):not(.loading) {
+  background-color: #E5E6EB;
+}
+
+/* 成功按钮 */
+.btn.success {
+  background-color: #00B42A;
+  color: white;
+}
+.btn.success:hover:not(.disabled):not(.loading) {
+  background-color: #008722;
+}
+
+/* 危险按钮 */
+.btn.danger {
+  background-color: #F53F3F;
+  color: white;
+}
+.btn.danger:hover:not(.disabled):not(.loading) {
+  background-color: #D92121;
+}
+
+/* 轮廓按钮 */
+.btn.outline {
+  background-color: transparent;
+  border: 1px solid #D0D3D9;
+  color: #4E5969;
+}
+.btn.outline:hover:not(.disabled):not(.loading) {
+  border-color: #165DFF;
+  color: #165DFF;
+  background-color: #F0F7FF;
+}
+
+/* 状态样式 */
+/* 禁用状态 */
+.btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 加载状态 */
+.btn.loading {
+  cursor: wait;
+}
+
+/* 加载动画（Spinner） */
+.btn .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 图标样式 */
+.btn .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 文本内容 */
+.btn .content {
+  display: inline-block;
+}
