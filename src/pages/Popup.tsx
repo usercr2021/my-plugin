@@ -129,55 +129,19 @@ export default function () {
         >
           Run SQL
         </button>
+
+        {/* <select></select> */}
       </div>
 
-      <div>
-
-        {/* 基础用法 */}
-        {/* <Button variant="primary" onClick={handleClick}>
-          主要按钮
-        </Button> */}
-
-        {/* 次要按钮 */}
-        <Button variant="secondary">次要按钮</Button>
-
-        {/* 危险按钮（小尺寸） */}
-        {/* <Button variant="danger" size="small">
-          删除
-        </Button> */}
-
-        {/* 加载状态 */}
-        {/* <Button variant="primary" isLoading>
-          提交
-        </Button> */}
-
-        {/* 禁用状态 */}
-        {/* <Button variant="primary" disabled>
-          已禁用
-        </Button> */}
-
-        {/* 自定义加载文本 */}
-        {/* <Button variant="secondary" isLoading loadingText="处理中...">
-          处理
-        </Button> */}
-
-        {/* 自定义样式 */}
-        {/* <Button
-          variant="primary"
-          style={{ borderRadius: 20, minWidth: 120 }}
-        >
-          圆角按钮
-        </Button> */}
-
-      </div>
-
-      <div><p className={styles.Popup}>{errMsg}</p></div>
+      {/* <div><p className={styles.Popup}>{errMsg}</p></div> */}
 
       <div className={styles.Err}>
         <DataTable Fields={fields} Data={rows} ></DataTable>
       </div>
 
-      <Editor ref={editorRef} value={json} language={'sql'} />
+      <div className={styles.Popup}>
+        <Editor ref={editorRef} value={json} language={'sql'} />
+      </div>
     </div>
   );
 }

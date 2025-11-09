@@ -1,0 +1,194 @@
+/* 表格容器：处理滚动和边框 */
+.container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: var(--table-bg, #fff);
+  transition: all 0.2s ease;
+}
+
+/* 表格主体 */
+.table {
+  width: 100%;
+  min-width: 640px; /* 最小宽度，避免过窄 */
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 表头样式 */
+.thead {
+  background-color: var(--table-header-bg, #f8fafc);
+}
+
+.th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--table-header-color, #334155);
+  border-bottom: 1px solid var(--table-border, #e2e8f0);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* 可排序表头 */
+.sortable {
+  cursor: pointer;
+}
+
+.sortable:hover {
+  color: var(--primary-color, #3b82f6);
+}
+
+.sortIndicator {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* 表体样式 */
+.td {
+  /* padding: 12px 16px; */
+  font-size: 14px;
+  color: var(--table-text-color, #64748b);
+  border-bottom: 1px solid var(--table-border, #e2e8f0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* 内容过长时显示省略号 */
+}
+
+/* 行样式 */
+.tr {
+  transition: background-color 0.15s ease;
+}
+
+.tr:hover {
+  background-color: var(--table-row-hover, #f1f5f9);
+}
+
+/* 隔行变色 */
+.tr:nth-child(even) {
+  background-color: var(--table-row-even, #f8fafc);
+}
+
+/* 选中行 */
+.tr.selected {
+  background-color: var(--table-row-selected, #dbeafe);
+  border-left: 3px solid var(--primary-color, #3b82f6);
+}
+
+/* 空状态 */
+.emptyRow .td {
+  padding: 10px 10px;
+  text-align: center;
+  color: var(--table-text-light, #94a3b8);
+  border-bottom: none;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.3;
+}
+
+/* 加载状态 */
+.loadingRow .td {
+  padding: 48px 20px;
+  text-align: center;
+  border-bottom: none;
+}
+
+.loadingSpinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--table-border, #e2e8f0);
+  border-top-color: var(--primary-color, #3b82f6);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+/* 分页/统计信息栏 */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--table-text-light, #94a3b8);
+  border-top: 1px solid var(--table-border, #e2e8f0);
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.pageBtn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--table-border, #e2e8f0);
+  background-color: transparent;
+  color: var(--table-text-color, #64748b);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.1s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: var(--primary-color, #3b82f6);
+  color: var(--primary-color, #3b82f6);
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageBtn.active {
+  background-color: var(--primary-color, #3b82f6);
+  color: white;
+  border-color: var(--primary-color, #3b82f6);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .th, .td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .table {
+    min-width: 480px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+/* 深色模式变量（可通过父元素 class 切换） */
+.darkMode {
+  --table-bg: #1e293b;
+  --table-header-bg: #0f172a;
+  --table-header-color: #e2e8f0;
+  --table-text-color: #cbd5e1;
+  --table-text-light: #94a3b8;
+  --table-border: #334155;
+  --table-row-hover: #334155;
+  --table-row-even: #0f172a;
+  --table-row-selected: #1e40af;
+  --primary-color: #60a5fa;
+}
+
+/* 动画 */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

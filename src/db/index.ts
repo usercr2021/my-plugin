@@ -10,7 +10,7 @@ let dbInstance: duckdb.AsyncDuckDB | null = null;
 
 export async function getDuckDB() {
     if (dbInstance) return dbInstance;
-    
+
     const path = 'opfs://mydb.duckdb';
     const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
         mvp: {
@@ -30,11 +30,14 @@ export async function getDuckDB() {
         const worker = new Worker(bundle.mainWorker!);
         const logger = new duckdb.ConsoleLogger();
         const db = new duckdb.AsyncDuckDB(logger, worker);
+        db.open({
+            path: path
+        })
         await db.instantiate(
             bundle.mainModule, bundle.pthreadWorker
         );
-        
-        await db.registerOPFSFileName(path);
+
+        // await db.registerOPFSFileName(path);
         dbInstance = db;
         // await db.registerOPFSFileName(path);
         // Create a new connection

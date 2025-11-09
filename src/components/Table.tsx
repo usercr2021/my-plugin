@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Table.module.css";
 
 
 export const DataTable: React.FC<TableProps> = ({
@@ -7,24 +8,28 @@ export const DataTable: React.FC<TableProps> = ({
 }) => {
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    {Fields.map((item, index) => (
-                        <th key={index}>{item}</th>
-                    ))}
-                </tr>
-            </thead>
-
-            <tbody>
-                {Data.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {Fields.map((field) => (
-                            <td key={field}>{row[field]}</td>
+        <div className={styles.container}>
+            <table className={styles.table}>
+                <thead className={styles.thead}>
+                    <tr className={styles.tr}>
+                        {Fields.map((item, index) => (
+                            <th key={index} className={styles.th} >
+                                {item}
+                            </th>
                         ))}
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    {Data.map((row, rowIndex) => (
+                        <tr key={rowIndex} className={styles.emptyRow}>
+                            {Fields.map((field) => (
+                                <td key={field} className={styles.td}>{row[field]}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
