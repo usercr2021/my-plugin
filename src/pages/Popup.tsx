@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import styles from "./Popup.module.css";
-import { getDuckDB } from '../db';
+import { getDuckConn } from '../db';
 import * as arrow from 'apache-arrow';
 import { Editor, EditorRef } from '../components/Editor';
 import { DataTable } from '../components/Table';
@@ -22,17 +22,13 @@ export default function () {
     dbInit.current = true;
     (async () => {
       try {
-        console.log('初始化开始');
-        const db = await getDuckDB();
-        const conn1 = await db?.connect();
-        // const conn2 = await db?.connect();
-        console.log('连接已建立');
+        const conn = await getDuckConn();
 
-        // setRows(JSON.stringify(await conn1?.getTableNames('SELECT * FROM test')))
+        // setRows(JSON.stringify(await conn?.getTableNames('SELECT * FROM test')))
         console.log(rows)
-
+        // conn.getTableNames
         // console.log(tableNames);
-        await conn1?.query(` 
+        await conn?.query(` 
           CREATE TABLE requests (
             id INTEGER PRIMARY KEY,
             req_id VARCHAR,
@@ -49,7 +45,7 @@ export default function () {
           );
           `);
 
-        await conn1?.query(`
+        await conn?.query(`
           INSERT INTO requests VALUES (1, '123.32', '/interface/99', '123341231dsdqwqw', '{"xx":"hhax"}', '{"name":"hhax","data":"123"}', '1992-09-20 11:30:00.123456789', '1992-09-20 11:30:00.123456789', 'sql', ['gmv_1d','cnt_1d'], '{"xx":"hhax"}', '{"name":"hhax","data":"123"}');
         `);
 
@@ -58,12 +54,12 @@ export default function () {
         //   SELECT * FROM requests 
         //   `);
         // await Promise.all([
-        //   conn1?.query("SELECT * FROM requests ").then((res) => { console.log(res) }),
+        //   conn?.query("SELECT * FROM requests ").then((res) => { console.log(res) }),
         //   conn2?.query("SELECT * FROM requests ").then((res) => { console.log(res) }),
         // ]);
 
-        const table = await conn1?.query("SELECT * FROM requests ")
-        conn1?.close();
+        const table = await conn?.query("SELECT * FROM requests ")
+        // conn?.close();
 
         // conn2?.close();
         // const rowCount = table?.numRows ?? 0;
@@ -91,8 +87,7 @@ export default function () {
 
   const handleClick = async () => {
     try {
-      const db = await getDuckDB();
-      const conn = await db?.connect();
+      const conn = await getDuckConn();
 
       // const table = await conn?.query("SELECT * FROM requests ")
 
@@ -100,7 +95,7 @@ export default function () {
       const sql = editorRef.current?.getValue() ?? "SELECT id FROM requests ";
       console.log(`sql:${sql}`)
       const table = await conn?.query(sql)
-      conn?.close();
+      // conn?.close();
       const rowCount = table?.numRows ?? 0;
 
       const names = table?.schema?.fields?.map(f => f.name);
@@ -129,11 +124,7 @@ export default function () {
         >
           Run SQL
         </button>
-
-        {/* <select></select> */}
       </div>
-
-      {/* <div><p className={styles.Popup}>{errMsg}</p></div> */}
 
       <div className={styles.Err}>
         <DataTable Fields={fields} Data={rows} ></DataTable>

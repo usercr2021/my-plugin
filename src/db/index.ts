@@ -4,12 +4,13 @@ import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?ur
 import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
 import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
 import * as arrow from 'apache-arrow';
+import { DuckDBAccessMode } from '@duckdb/duckdb-wasm'
 
 // 全局单例
 let dbInstance: duckdb.AsyncDuckDB | null = null;
-
-export async function getDuckDB() {
-    if (dbInstance) return dbInstance;
+let conn: duckdb.AsyncDuckDBConnection | null = null;
+export async function getDuckConn() {
+    if (conn) return conn;
 
     const path = 'opfs://mydb.duckdb';
     const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
@@ -30,22 +31,22 @@ export async function getDuckDB() {
         const worker = new Worker(bundle.mainWorker!);
         const logger = new duckdb.ConsoleLogger();
         const db = new duckdb.AsyncDuckDB(logger, worker);
-        db.open({
-            path: path
-        })
         await db.instantiate(
             bundle.mainModule, bundle.pthreadWorker
         );
 
-        // await db.registerOPFSFileName(path);
+        await db.open({
+            path: path,
+            accessMode: DuckDBAccessMode.READ_WRITE
+        })
+
         dbInstance = db;
-        // await db.registerOPFSFileName(path);
-        // Create a new connection
-        //   const conn = await db.connect();
-        //   // Either materialize the query result
-        //   const result = await conn.query<{ v: arrow.Int }>(`
-        //     SELECT * FROM generate_series(1, 100) t(col)
-        // `);
+
+        await db.registerOPFSFileName(path);
+
+        conn = await db.connect();
+
+
         //   // 3. 将结果转换为 Arrow 表
         //   const arrowTable = result.toArray();
         //   // setResult(`${arrowTable}`)
@@ -60,7 +61,7 @@ export async function getDuckDB() {
 
     console.log('DuckDB initialized globally');
 
-    return dbInstance;
+    return conn;
 }
 
 
